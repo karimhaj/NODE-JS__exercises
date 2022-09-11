@@ -10,7 +10,7 @@ test("GET /", async () => {
   const response = await request
     .get("/")
     .expect(200)
-    .expect("Content-Type", "application/json");
+    .expect("Content-Type", "text/html");
 
-  expect(response.body).toEqual({ location: "Earth" });
+  expect(response.text).toEqual("Welcome to World Wide Web!");
 });
