@@ -1,10 +1,14 @@
 {
   "name": "node-js",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.test.js",
   "scripts": {
     "test": "jest"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karimhaj/NODE-JS__exercises.git"
   },
   "author": "",
   "license": "ISC",
