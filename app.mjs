@@ -1,6 +1,25 @@
-import * as fs from 'node:fs';
+function luckyDraw (player){
+  return new Promise((resolve, reject) => {
+    const win = Boolean(Math.round(Math.random()));
 
-fs.writeFile('message.txt', 'Hi Node.js', 'utf-8',(err) => {
-  if (err) throw err;
-  console.log('The file has been saved!');
-});
+    process.nextTick(() => {
+      if (win) {
+        resolve(`${player} won a prize in the draw!`);
+      } else {
+        reject(new Error(`${player} lost the draw.`));
+      }
+    });
+  }); 
+}; 
+
+luckyDraw('Joe')
+.then(value => console.log(value))
+.catch(error=> console.log(error));
+
+luckyDraw('Caroline')
+.then(value => console.log(value))
+.catch(error=> console.log(error));
+
+luckyDraw('Sabrina')
+.then(value => console.log(value))
+.catch(error=> console.log(error));
