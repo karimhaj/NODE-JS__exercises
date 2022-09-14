@@ -4,7 +4,7 @@ import "express-async-errors";
 const app = express(); 
 
 app.get("/", (request, response)=>{
-    response.send('Sorrido sempre ciao!')
+    response.send('Hello everyone')
 });
 
 const port = 3000; 
