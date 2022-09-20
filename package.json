@@ -1,11 +1,12 @@
 {
   "name": "node-js",
   "scripts": {
+    "lint": "eslint src/ --cache --fix",
     "test": "jest",
     "start": "node --enable-source-maps dist/server.js",
     "start:dev": "nodemon --watch server.js --watch .env",
     "build": "tsc",
-    "build:dev": "tsc --watch dist/server.js",
+    "build:dev": "tsc --watch",
     "dev": "npm run build && concurrently 'npm:build:dev' 'npm:start:dev'"
   },
   "engines": {
@@ -29,8 +30,13 @@
     "@types/jest": "^29.0.2",
     "@types/node": "^18.7.18",
     "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "@typescript-eslint/parser": "^5.38.0",
     "concurrently": "^7.4.0",
+    "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
     "express": "^4.18.1",
+    "jest-mock-extended": "^3.0.1",
     "nodemon": "^2.0.19",
     "prisma": "^4.3.1",
     "supertest": "^6.2.4",
