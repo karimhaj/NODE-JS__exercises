@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 
-import { prismaMock } from "./lib/prisma/client.mock";
+import { prismaMock } from "./lib/client.mock";
 
 import app from './app';
 
@@ -39,19 +39,44 @@ test("GET /planets", async () => {
     expect(response.body).toEqual(planets);
 })
 
-test("POST /planets", async () => {
-    const planet =
-        {
-        name: "Mercury",
-        diameter: 2653,
-        moons: 12,
-        };
+describe("POST/planets", ()=>{
 
-    const response = await request
-        .post("/planets")
-        .send(planet)
-        .expect(201)
-        .expect("Content-Type", /application\/json/);
+    test("valid request", async () => {
+        const planet =
+            {
+            name: "Mercury",
+            diameter: 2653,
+            moons: 12,
+            };
+    
+        const response = await request
+            .post("/planets")
+            .send(planet)
+            .expect(201)
+            .expect("Content-Type", /application\/json/);
+    
+        expect(response.body).toEqual(planet);
+    })
 
-    expect(response.body).toEqual(planet);
-})
+    test("invalid request", async () => {
+        const planet =
+            {
+            diameter: 2653,
+            moons: 12,
+            };
+    
+        const response = await request
+            .post("/planets")
+            .send(planet)
+            .expect(422)
+            .expect("Content-Type", /application\/json/);
+    
+        expect(response.body).toEqual({
+            errors: {
+                body: expect.any(Array)
+            }
+        });
+    })
+
+});
+

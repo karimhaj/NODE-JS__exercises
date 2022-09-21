@@ -5,6 +5,6 @@
         "sourceMap": true,
         "allowJs": true
     },
-    "include": ["./src/**/*.ts"],
+    "include": ["./src/**/*.ts", "src/lib/client.mock.ts"],
     "exclude": ["./src/**/*.test.ts"]
 }
