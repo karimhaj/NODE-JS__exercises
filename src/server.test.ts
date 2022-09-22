@@ -28,7 +28,7 @@ test("GET /planets", async () => {
         }
     ];
 
-    //@ts-ignore
+    //@ts-ignore 
     prismaMock.planet.findMany.mockResolvedValue(planets); 
 
     const response = await request
@@ -42,16 +42,27 @@ test("GET /planets", async () => {
 describe("POST/planets", ()=>{
 
     test("valid request", async () => {
-        const planet =
-            {
+        const planet ={
+            id: 3,
             name: "Mercury",
+            description: null,
             diameter: 2653,
             moons: 12,
-            };
+            createdAt: "2022-09-22T08:04:35.119Z",
+            updatedAt: "2022-09-22T08:04:35.119Z"
+        };
+
+
+   //@ts-ignore 
+    prismaMock.planet.create.mockResolvedValue(planets); 
     
         const response = await request
             .post("/planets")
-            .send(planet)
+            .send({
+                name: "Mercury",
+                diameter: 2653,
+                moons: 12,
+                })
             .expect(201)
             .expect("Content-Type", /application\/json/);
     
