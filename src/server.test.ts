@@ -6,38 +6,88 @@ import app from './app';
 
 const request = supertest(app);
 
-test("GET /planets", async () => {
-    const planets = [
-        {
-            id: 1,
-            name: "Mercury",
-            description: null,
-            diameter: 2653,
-            moons: 12,
-            createdAt: "2022-09-20T10:04:11.916Z",
-            updatedAt: "2022-09-20T10:03:21.528Z"
-        },
-        {
-            id: 2,
-            name: "Venus",
-            description: null,
-            diameter: 764,
-            moons: 2,
-            createdAt: "2022-09-20T10:04:46.970Z",
-            updatedAt: "2022-09-20T10:04:31.011Z"
-        }
-    ];
+describe("GET /planets", () => {
+    test("valid request", async ()=>{
+        const planets = [
+            {
+                id: 1,
+                name: "Mercury",
+                description: null,
+                diameter: 2653,
+                moons: 12,
+                createdAt: "2022-09-20T10:04:11.916Z",
+                updatedAt: "2022-09-20T10:03:21.528Z"
+            },
+            {
+                id: 2,
+                name: "Venus",
+                description: null,
+                diameter: 764,
+                moons: 2,
+                createdAt: "2022-09-20T10:04:46.970Z",
+                updatedAt: "2022-09-20T10:04:31.011Z"
+            }
+        ];
+    
+        //@ts-ignore 
+        prismaMock.planet.findMany.mockResolvedValue(planets); 
+    
+        const response = await request
+            .get("/planets")
+            .expect(200)
+            .expect("Content-Type", /application\/json/);
+    
+        expect(response.body).toEqual(planets);
+    })    
+    }); 
 
-    //@ts-ignore 
-    prismaMock.planet.findMany.mockResolvedValue(planets); 
+describe("GET /planet/:id", () => {
+   test("valid request", async ()=>{
+       const planet ={
+               id: 2,
+               name: "Venus",
+               description: null,
+               diameter: 764,
+               moons: 2,
+               createdAt: "2022-09-20T10:04:46.970Z",
+               updatedAt: "2022-09-20T10:04:31.011Z"
+           }
+   
+       //@ts-ignore 
+       prismaMock.planet.findUnique.mockResolvedValue(planets); 
+   
+       const response = await request
+           .get("/planet/1")
+           .expect(200)
+           .expect("Content-Type", /application\/json/);
+   
+       expect(response.body).toEqual(planet);
+   });
+   
+        test("Planet does not exist", async ()=>{
+            prismaMock.planet.findUnique.mockResolvedValue(null);
 
-    const response = await request
-        .get("/planets")
-        .expect(200)
-        .expect("Content-Type", /application\/json/);
+            const response = await request
+            .get("/planets/5")
+            .expect(404)
+            .expect("Content-Type", /text\/html/);
 
-    expect(response.body).toEqual(planets);
-})
+            expect(response.text).toContain("Cannot GET /planets/5")
+        })
+
+        test("Invalid planet ID", async ()=>{
+            prismaMock.planet.findUnique.mockResolvedValue(null);
+
+            const response = await request
+            .get("/planets/asdf")
+            .expect(404)
+            .expect("Content-Type", /text\/html/);
+
+            expect(response.text).toContain("Cannot GET /planets/asdf")
+        })
+   }); 
+
+   
 
 describe("POST/planets", ()=>{
 
