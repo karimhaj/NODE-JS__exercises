@@ -76,8 +76,6 @@ describe("GET /planet/:id", () => {
         })
 
         test("Invalid planet ID", async ()=>{
-            prismaMock.planet.findUnique.mockResolvedValue(null);
-
             const response = await request
             .get("/planets/asdf")
             .expect(404)
@@ -141,3 +139,126 @@ describe("POST/planets", ()=>{
 
 });
 
+
+
+  
+
+describe("PUT/planets/:id", ()=>{
+
+    test("valid request", async () => {
+        const planet ={
+            id: 3,
+            name: "Mercury",
+            description: "lovely planet",
+            diameter: 2653,
+            moons: 12,
+            createdAt: "2022-09-22T08:04:35.119Z",
+            updatedAt: "2022-09-22T08:04:35.119Z"
+        };
+
+
+   //@ts-ignore 
+    prismaMock.planet.update.mockResolvedValue(planets); 
+    
+        const response = await request
+            .put("/planets/3")
+            .send({
+                name: "Mercury",
+                description: "lovely planet",
+                diameter: 2653,
+                moons: 12,
+                })
+            .expect(200)
+            .expect("Content-Type", /application\/json/);
+    
+        expect(response.body).toEqual(planet);
+    })
+
+    test("invalid request", async () => {
+        const planet =
+            {
+            diameter: 2653,
+            moons: 12,
+            };
+    
+        const response = await request
+            .put("/planets/5")
+            .send(planet)
+            .expect(422)
+            .expect("Content-Type", /application\/json/);
+    
+        expect(response.body).toEqual({
+            errors: {
+                body: expect.any(Array)
+            }
+        });
+    })
+
+
+    test("Planet does not exist", async ()=>{
+        prismaMock.planet.update.mockRejectedValue(new Error("Error"));
+
+        const response = await request
+        .put("/planets/5")
+        .send({ 
+        name: "Mercury",
+        description: "lovely planet",
+        diameter: 2653,
+        moons: 12,
+    })
+        .expect(404)
+        .expect("Content-Type", /text\/html/);
+
+        expect(response.text).toContain("Cannot PUT /planets/5")
+    })
+
+    test("Invalid planet ID", async ()=>{
+        const response = await request
+        .put("/planets/asdf")
+        .send({ 
+            name: "Mercury",
+            description: "lovely planet",
+            diameter: 2653,
+            moons: 12,
+        })
+        .expect(404)
+        .expect("Content-Type", /text\/html/);
+
+        expect(response.text).toContain("Cannot PUT /planets/asdf")
+    })
+}); 
+
+
+
+
+describe("DELETE/planet/:id", () => {
+    test("valid request", async ()=>{
+
+        const response = await request
+            .delete("/planet/1")
+            .expect(204)
+
+        expect(response.text).toEqual('');
+    });
+    
+         test("Planet does not exist", async ()=>{
+             prismaMock.planet.delete.mockRejectedValue(new Error("Error"));
+ 
+             const response = await request
+             .get("/planets/5")
+             .expect(404)
+             .expect("Content-Type", /text\/html/);
+ 
+             expect(response.text).toContain("Cannot DELETE /planets/5")
+         })
+ 
+         test("Invalid planet ID", async ()=>{
+             const response = await request
+             .delete("/planets/asdf")
+             .expect(404)
+             .expect("Content-Type", /text\/html/);
+ 
+             expect(response.text).toContain("Cannot DELETE /planets/asdf")
+         })
+    }); 
+ 
