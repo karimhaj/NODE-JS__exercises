@@ -3,5 +3,7 @@ module.exports = {
     testEnvironment: 'node',
     verbose: true,
     clearMocks: true,
-    setupFilesAfterEnv: ["./src/lib/client.mock.ts"]
+    setupFilesAfterEnv: ["./src/lib/client.mock.ts",
+    "./src/lib/middleware/multer.mock.ts"
+  ]
   };
