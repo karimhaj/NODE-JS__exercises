@@ -7,7 +7,8 @@
     "start:dev": "nodemon --watch dist/ --watch .env",
     "build": "tsc",
     "build:dev": "tsc --watch",
-    "dev": "npm run build && concurrently 'npm:build:dev' 'npm:start:dev'"
+    "dev": "npm run build && concurrently 'npm:build:dev' 'npm:start:dev'",
+    "web": "serve -p 8080 web/"
   },
   "engines": {
     "node": ">=16"
@@ -42,6 +43,7 @@
     "jest-mock-extended": "^3.0.1",
     "nodemon": "^2.0.19",
     "prisma": "^4.3.1",
+    "serve": "^14.0.1",
     "supertest": "^6.2.4",
     "ts-jest": "^29.0.1",
     "typescript": "^4.8.3"
