@@ -266,3 +266,23 @@ describe("DELETE/planet/:id", () => {
          })
     }); 
  
+
+describe("POST /planets/:id/photo", ()=>{
+    test("invalid planet ID", async () =>{
+        const response = await request
+        .post("/planets/asdf/photo")
+        .expect(404)
+        .expect("Content-Type", /text\/html/);
+
+        expect(response.text).toContain("Cannot POST /planets/asdf/photo")
+    });
+
+    test("invalid request with no file upload", async ()=>{
+        const response = await request
+        .post("/planets/5/photo")
+        .expect(400)
+        .expect("Content-Type", /text\/html/);
+
+        expect(response.text).toContain("No photo file uploaded.")
+    })
+})
