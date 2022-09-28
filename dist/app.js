@@ -72,9 +72,21 @@ app.post("/planets/:id(\\d+)/photo", upload.single("photo"), async (request, res
         response.status(400);
         return next("no photo file uploaded.");
     }
-    const photoFileName = request.file.filename;
-    response.status(201).json({ photoFileName });
+    const planetId = Number(request.params.id);
+    const photoFilename = request.file.filename;
+    try {
+        await client_1.default.planet.update({
+            where: { id: planetId },
+            data: { photoFilename }
+        });
+    }
+    catch (error) {
+        response.status(404);
+        next(`Cannot POST /planets/${planetId}/photo`);
+    }
+    response.status(201).json({ photoFilename });
 });
+app.use("/planets/photos", express_1.default.static("uploads"));
 app.use(validation_1.ValidationErrorMiddleware);
 exports.default = app;
 //# sourceMappingURL=app.js.map
