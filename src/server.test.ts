@@ -277,6 +277,26 @@ describe("POST /planets/:id/photo", ()=>{
             
     })
 
+    test("valid request with JPG file upload", async () =>{
+        await request
+            .post("/planets/23/photo")
+            .attach("photo", "text-fixtures/file.jpg")
+            .expect(201)
+            .expect("Access-Control-Allow-Origin", "http://localhost:8080"); 
+            
+    })
+
+    test("invalid request with text file upload", async () =>{
+        await request
+            .post("/planets/23/photo")
+            .attach("photo", "text-fixtures/file.txt")
+            .expect(500)
+            .expect("Content-Type", /text\/html/); 
+
+            expect(response.text)
+            
+    })
+
     test("Planet does not exist", async ()=>{
         //@ts-ignore
         prismaMock.planet.update.mockRejectedValue(new Error('error'));
