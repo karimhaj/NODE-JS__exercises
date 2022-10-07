@@ -8,7 +8,7 @@ import {
         ValidationErrorMiddleware,
         planetSchema,
         PlanetData
-} from "../lib/validation";
+} from "../lib/middleware/validation";
 
 import { initMulterMidlleware } from "../lib/middleware/multer";
 
@@ -113,4 +113,4 @@ router.post("/:id(\\d+)/photo",
 );
 
 
-router.use("/planets/photos" , express.static("uploads"))
+router.use("/photos" , express.static("uploads"))
