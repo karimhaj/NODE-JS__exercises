@@ -10,6 +10,8 @@ import {
         PlanetData
 } from "../lib/middleware/validation";
 
+import { checkAuthorization } from "../lib/middleware/passport";
+
 import { initMulterMidlleware } from "../lib/middleware/multer";
 
 const upload = initMulterMidlleware();
@@ -39,7 +41,7 @@ router.get("/:id(\\d+)", async (request, response, next) => {
     response.json(planet);
 });
 
-router.post("/", validate({ body: planetSchema }), async (request, response) => {
+router.post("/", checkAuthorization, validate({ body: planetSchema }), async (request, response) => {
     const PlanetData: PlanetData = request.body;
 
     const planet = await prisma.planet.create({
@@ -50,7 +52,7 @@ router.post("/", validate({ body: planetSchema }), async (request, response) => 
 });
 
 
-router.put("/:id(\\d+)", validate({ body: planetSchema }), async (request, response, next) => {
+router.put("/:id(\\d+)", checkAuthorization, validate({ body: planetSchema }), async (request, response, next) => {
     const planetId = Number(request.params.id);
     const PlanetData: PlanetData = request.body;
 
@@ -69,7 +71,7 @@ router.put("/:id(\\d+)", validate({ body: planetSchema }), async (request, respo
 });
 
 
-router.delete("/:id(\\d+)", async (request, response, next) => {
+router.delete("/:id(\\d+)", checkAuthorization, async (request, response, next) => {
     const planetId = Number(request.params.id);
 
     try {
@@ -85,7 +87,8 @@ router.delete("/:id(\\d+)", async (request, response, next) => {
 
 });
 
-router.post("/:id(\\d+)/photo",
+router.post("/:id(\\d+)/photo", 
+    checkAuthorization,
     upload.single("photo"),
     async (request, response, next) => {
             console.log("request.file", request.file);

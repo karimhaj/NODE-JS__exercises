@@ -1,5 +1,7 @@
 import passport from "passport";
 import passportGitHub2 from "passport-github2"; 
+import { RequestHandler } from "express";
+
 import config from "../../config";
 
 const githubStrategy = new passportGitHub2.Strategy(
@@ -27,4 +29,15 @@ passport.use(githubStrategy);
 passport.serializeUser<Express.User>((user, done) => done(null, user)); 
 passport.deserializeUser<Express.User>((user, done)=> done(null, user));
 
-export { passport }; 
+const checkAuthorization: RequestHandler = (
+    request,
+    response,
+    next
+) =>{
+    if (request.isAuthenticated()){
+        return next()
+    }
+
+    response.status(401).end(); 
+}
+export { passport, checkAuthorization }; 
