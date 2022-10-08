@@ -35,7 +35,7 @@ const checkAuthorization: RequestHandler = (
     next
 ) =>{
     if (request.isAuthenticated()){
-        return next()
+        return next();
     }
 
     response.status(401).end(); 

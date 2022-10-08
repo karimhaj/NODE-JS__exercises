@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(initCorsMiddleware);
 
 app.use("/planets", planetsRoutes); 
-app.use("/auth", authRoutes)
+app.use("/auth", authRoutes);
 
 app.use(ValidationErrorMiddleware);
 
