@@ -16,7 +16,7 @@ app.use((0, session_1.initSessionMiddleware)());
 app.use(passport_1.passport.initialize());
 app.use(passport_1.passport.session());
 app.use(express_1.default.json());
-app.use(cors_1.initCorsMiddleware);
+app.use((0, cors_1.initCorsMiddleware)());
 app.use("/planets", planets_1.default);
 app.use("/auth", auth_1.default);
 app.use(validation_1.ValidationErrorMiddleware);

@@ -18,7 +18,7 @@ app.use(passport.session());
 
 app.use(express.json());
 
-app.use(initCorsMiddleware);
+app.use(initCorsMiddleware());
 
 app.use("/planets", planetsRoutes); 
 app.use("/auth", authRoutes);

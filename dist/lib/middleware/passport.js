@@ -18,6 +18,7 @@ const githubStrategy = new passport_github2_1.default.Strategy({
     };
     done(null, user);
 });
+console.log(config_1.default.GITHUB_CLIENT_ID);
 passport_1.default.use(githubStrategy);
 passport_1.default.serializeUser((user, done) => done(null, user));
 passport_1.default.deserializeUser((user, done) => done(null, user));

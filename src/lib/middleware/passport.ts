@@ -24,6 +24,7 @@ const githubStrategy = new passportGitHub2.Strategy(
     }
 ); 
 
+
 passport.use(githubStrategy); 
 
 passport.serializeUser<Express.User>((user, done) => done(null, user)); 
