@@ -17,7 +17,7 @@ class Logger {
     console.log(await this.logStorage.read());
   }
 }
-//Fix the LogStorageFSAdapter class so that it provides the methods the Logger class expects.
+
 
 class LogStorageFSAdapter {
   constructor(filepath) {
@@ -41,7 +41,6 @@ class LogStorageFSAdapter {
   }
 }
 
-//.........
 
 
 
